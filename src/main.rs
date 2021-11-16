@@ -11,6 +11,7 @@ fn main() {
     assert!(std::io::stdout().as_raw_handle().is_null());
     assert!(std::io::stderr().as_raw_handle().is_null());
 
+    // Spawn a child *without* `windows_subsystem "windows"`.
     let mut child = std::process::Command::new("cargo")
         .args(["run", "--example", "child"])
         .stdin(std::process::Stdio::inherit())
@@ -23,6 +24,7 @@ fn main() {
     assert!(child.stderr.is_none());
     child.wait().unwrap();
 
+    // Spawn a child *without* `windows_subsystem "windows"`, with pipes.
     let mut child = std::process::Command::new("cargo")
         .args(["orange", "--example", "child"])
         .stdin(std::process::Stdio::piped())
@@ -32,6 +34,7 @@ fn main() {
         .unwrap();
     child.wait().unwrap();
 
+    // Spawn a child *with* `windows_subsystem "windows"`.
     let mut child = std::process::Command::new("cargo")
         .args(["run", "--example", "win-child"])
         .stdin(std::process::Stdio::inherit())
@@ -44,6 +47,7 @@ fn main() {
     assert!(child.stderr.is_none());
     child.wait().unwrap();
 
+    // Spawn a child *with* `windows_subsystem "windows"`, with pipes.
     let mut child = std::process::Command::new("cargo")
         .args(["orange", "--example", "win-child"])
         .stdin(std::process::Stdio::piped())
